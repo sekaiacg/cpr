@@ -183,11 +183,11 @@ class ThreadPool {
     template <class Fn, class... Args>
     auto Submit(Fn&& fn, Args&&... args) {
         {
-            const std::unique_lock lock(controlMutex);
+            const std::unique_lock lockControl(controlMutex);
             // Add a new worker thread in case the tasks queue is not empty and we still can add a thread
             bool shouldAddThread{false};
             {
-                std::unique_lock lock(taskQueueMutex);
+                std::unique_lock lockQueue(taskQueueMutex);
                 if (idleThreadCount <= tasks.size() && curThreadCount < maxThreadCount) {
                     if (state == State::RUNNING) {
                         shouldAddThread = true;
