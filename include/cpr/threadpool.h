@@ -169,7 +169,7 @@ class ThreadPool {
     /**
      * Returns as soon as the task queue is empty and all threads are either stopped/joined or in idel state.
      **/
-    void Wait();
+    void Wait() const;
 
     /**
      * Enqueues a new task to the thread pool.

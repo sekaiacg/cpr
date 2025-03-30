@@ -78,7 +78,7 @@ void ThreadPool::Stop() {
     }
 }
 
-void ThreadPool::Wait() {
+void ThreadPool::Wait() const {
     while (true) {
         if ((state != State::RUNNING && curThreadCount <= 0) || (tasks.empty() && curThreadCount <= idleThreadCount)) {
             break;
