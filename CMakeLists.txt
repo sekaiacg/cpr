@@ -294,10 +294,15 @@ else()
     if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
         cmake_policy(SET CMP0135 NEW)
     endif()
+
+    set(PATCH_LIBCUR git apply ${CMAKE_CURRENT_SOURCE_DIR}/cmake/libcurl_CMakeLists.txt.patch)
     FetchContent_Declare(curl
-                         URL                    https://github.com/curl/curl/releases/download/curl-8_10_1/curl-8.10.1.tar.xz
-                         URL_HASH               SHA256=73a4b0e99596a09fa5924a4fb7e4b995a85fda0d18a2c02ab9cf134bebce04ee # the file hash for curl-8.10.1.tar.xz
-                         USES_TERMINAL_DOWNLOAD TRUE)   # <---- This is needed only for Ninja to show download progress
+                         GIT_REPOSITORY                https://github.com/curl/curl
+                         GIT_TAG                       curl-8_10_1
+                         GIT_SHALLOW 1
+                         USES_TERMINAL_DOWNLOAD TRUE   # <---- This is needed only for Ninja to show download progress
+                         PATCH_COMMAND ${PATCH_LIBCUR}
+                         UPDATE_DISCONNECTED 1)
     FetchContent_MakeAvailable(curl)
 
     restore_variable(DESTINATION CMAKE_CXX_CLANG_TIDY BACKUP CMAKE_CXX_CLANG_TIDY_BKP)

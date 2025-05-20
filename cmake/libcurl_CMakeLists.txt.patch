@@ -1,0 +1,19 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index aee20fe43..4ff31a4a2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -469,9 +469,11 @@ if(ENABLE_THREADED_RESOLVER)
+ endif()
+ 
+ # Check for all needed libraries
+-check_library_exists("socket" "connect" "" HAVE_LIBSOCKET)
+-if(HAVE_LIBSOCKET)
+-  set(CURL_LIBS "socket;${CURL_LIBS}")
++if (NOT WIN32 AND NOT APPLE)
++  check_library_exists("socket" "connect" "" HAVE_LIBSOCKET)
++  if(HAVE_LIBSOCKET)
++    set(CURL_LIBS "socket;${CURL_LIBS}")
++  endif()
+ endif()
+ 
+ check_function_exists("gethostname" HAVE_GETHOSTNAME)
